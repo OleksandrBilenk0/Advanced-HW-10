@@ -7,19 +7,23 @@ document.addEventListener('keydown', function (e) {
     key.classList.add('playing');
 });
 
+const keys = document.querySelectorAll('.key');
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
 function removeTransition(e) {
     if (e.propertyName !== 'transform') return;
     this.classList.remove('playing');
 }
 
-const keys = document.querySelectorAll('.key');
-keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+keys.forEach(key => key.addEventListener('click', playAudio));
+function playAudio(e) {
+    let key = e.target;
+    let audio = document.getElementById(key.dataset.key);
+    audio.currentTime = 0;
+    audio.play();
+    key.classList.add('playing');
+}
 
 
-// keys.forEach(key => key.addEventListener('mousedown', function () {
-//     const audio = new Audio();
-//     audio.src = `audio/${key.keyCode}`;
-//     audio.play();
-//     key.classList.add('playing');
-// }));
 
